@@ -1,3 +1,5 @@
+import 'package:call_api/bloc/photos/photos_bloc.dart';
+import 'package:call_api/bloc/photos/photos_state.dart';
 import 'package:call_api/bloc/posts/post_bloc.dart';
 import 'package:call_api/bloc/posts/post_event.dart';
 import 'package:call_api/bloc/posts/post_state.dart';
@@ -5,18 +7,18 @@ import 'package:call_api/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PostsScreen extends StatefulWidget {
-  const PostsScreen({Key? key}) : super(key: key);
+class PhotosScreen extends StatefulWidget {
+  const PhotosScreen({Key? key}) : super(key: key);
 
   @override
-  State<PostsScreen> createState() => _PostsScreenState();
+  State<PhotosScreen> createState() => _PhotosScreenState();
 }
 
-class _PostsScreenState extends State<PostsScreen> {
+class _PhotosScreenState extends State<PhotosScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<PostBloc>().add((PostFetched()));
+    context.read<PhotosBloc>().add((PhotosFetched()));
   }
 
   @override
@@ -25,7 +27,7 @@ class _PostsScreenState extends State<PostsScreen> {
       appBar: AppBar(
         title: const Text('Posts APIs'),
       ),
-      body: BlocBuilder<PostBloc, PostState>(
+      body: BlocBuilder<PhotosBloc, PhotosState>(
         builder: (context, state) {
           switch (state.status) {
             case Status.initial:
@@ -34,17 +36,21 @@ class _PostsScreenState extends State<PostsScreen> {
               return Text(state.message.toString());
             case Status.success:
               return ListView.builder(
-                itemCount: state.posts.length,
+                itemCount: state.photos.length,
                 itemBuilder: (context, index) {
-                  final item = state.posts[index];
+                  final item = state.photos[index];
                   return ListTile(
                     title: Column(
                       children: [
-                        Text(item.userId.toString()),
-                        Text(item.title.toString()),
+                        Text(item.albumId.toString()),
+                        Text(item.title!),
                       ],
                     ),
-                    subtitle: Text(item.body.toString()),
+                    // subtitle: Image.network(
+                    //   item.thumbnailUrl!,
+                    //   //height: 400,
+                    //   width: double.infinity,
+                    // ),
                   );
                 },
               );

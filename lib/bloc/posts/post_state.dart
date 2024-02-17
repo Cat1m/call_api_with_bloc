@@ -1,21 +1,20 @@
 import 'package:call_api/model/posts_model.dart';
+import 'package:call_api/utils/utils.dart';
 import 'package:equatable/equatable.dart';
-
-enum PostStatus { initial, success, failure }
 
 class PostState extends Equatable {
   const PostState({
-    this.status = PostStatus.initial,
+    this.status = Status.initial,
     this.posts = const <PostModel>[],
     this.message = '',
   });
 
-  final PostStatus status;
+  final Status status;
   final List<PostModel> posts;
   final String message;
 
   PostState copyWith({
-    PostStatus? status,
+    Status? status,
     List<PostModel>? posts,
     String? message,
   }) {

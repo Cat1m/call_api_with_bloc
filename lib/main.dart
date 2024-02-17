@@ -1,5 +1,9 @@
+import 'package:call_api/PhotosScreen.dart';
 import 'package:call_api/PostsScreen.dart';
+import 'package:call_api/bloc/photos/photos_bloc.dart';
 import 'package:call_api/bloc/posts/post_bloc.dart';
+import 'package:call_api/repository/api_client.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,8 +17,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => PostBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => PostBloc(),
+        ),
+        BlocProvider(
+          create: (_) => PhotosBloc(ApiClient(http.Client())),
+        ),
+      ],
       child: MaterialApp(
         title: 'Flutter Demo',
         themeMode: ThemeMode.dark,
@@ -22,7 +33,7 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.dark,
           useMaterial3: true,
         ),
-        home: const PostsScreen(),
+        home: const PhotosScreen(),
       ),
     );
   }
